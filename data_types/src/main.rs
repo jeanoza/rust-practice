@@ -1,4 +1,4 @@
-use std::num::Wrapping;
+use std::{num::Wrapping, ops::AddAssign};
 
 fn main() {
     /*
@@ -20,6 +20,8 @@ fn main() {
      * In those case, `let` is better but I used `const` to test
      */
     let hex32: u32 = HEX.into(); // convert from const to let
-    let wrapped: Wrapping<u32> = Wrapping(hex32); // Wrapping to avoid overflow
+    let mut wrapped: Wrapping<u32> = Wrapping(hex32); // Wrapping to avoid overflow
+    println!("wrapped:\t{wrapped}");
+    wrapped.add_assign(2);
     println!("wrapped:\t{wrapped}");
 }
