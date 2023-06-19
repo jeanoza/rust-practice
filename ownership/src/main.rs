@@ -134,15 +134,59 @@ fn main() {
         println!("\n[Mutable Reference]");
         let mut s = String::from("hello");
 
+        //errors
         // change_str(&s);
         // fn change_str(s:&String) {
         //     s.push_str(", world");
         // }
-        change_str(&mut s);
 
+        change_str(&mut s);
         fn change_str(s:&mut String) {
             s.push_str(", world");
         }
         println!("{s}");
+
+        
+        /*
+         * Restriction
+         * Impossible to put mutable reference twice at the same time
+         * This restrict is to avoid `data race`
+         * BUT => we can anyway use `immutable reference` multiple time
+         */
+        {
+            println!("\n[restriction]");
+            let mut s = String::from("hello");
+            // let r1 = &mut s;
+            // let r2 = &mut s; // error
+            let r1 = &s;
+            let r2 = &s;
+            println!("{} {}", r1, r2);
+        }
+
+        /*
+         * Dangling Reference
+         * This case is invalid because in Rust, all memory will be freed at the last line in scope.
+         * So, returning reference of a allocated variable in function can't be valid.
+         */
+        {
+            println!("\n[Dangling Reference]");
+            // let reference_to_nothing = dangle();
+            // fn dangle() -> &String {
+            //     let s = String::from("Dangle");
+            //     &s
+            // }
+            let valid = no_dangle();
+            fn no_dangle() -> String {
+                let s = String::from("No dangle");
+                s
+            }
+            println!("{}", valid);
+        }
+
+        /*
+         * Recap
+         * At any given time, you can have either one mutable reference or any number of immutable references.
+         * References must always be valid.
+         */
     }
 }
