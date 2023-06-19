@@ -188,5 +188,93 @@ fn main() {
          * At any given time, you can have either one mutable reference or any number of immutable references.
          * References must always be valid.
          */
+
+        /*
+         * Slice Type
+         */
+        {
+            println!("\n[Slice Type]");
+
+            let s = String::from("hello world");
+            let word_length = first_word_length(&s);
+            let word = first_word_str(&s);
+            let word2 = first_word_str(&s[..]);
+            println!("word:\t\t{}", word);
+            println!("word2:\t\t{}", word2);
+            
+
+            // WE CANNOT exec this line because of conflict between mutable vs immutable
+            // s.clear();
+            // println!("word_length:\t{}", word_length);
+            // println!("word:\t\t{}", word);
+
+            /*
+             * returns index of the end of the first word
+             */
+            fn first_word_length(s: &String) -> usize {
+                let bytes = s.as_bytes();
+            
+                for (i, &item) in bytes.iter().enumerate() {
+                    // println!("i:{} &item:{}", i, item);
+                    // i => index, item => ascii num(u8) of each element
+                    if item == b' ' {
+                        return i;
+                    }
+                }
+            
+                s.len()
+            }
+
+            /*
+             * returns &str manipulating slice of &String
+             * use `&str` instead of `&String` in param is more flexible && general
+             *  => We can send &str, &String and also &str[..] -slicing
+             */
+            fn first_word_str(s:&str) -> &str{
+                let bytes = s.as_bytes();
+                for(i, &item) in bytes.iter().enumerate() {
+                    if item == b' ' {
+                        return &s[0..i];
+                    }
+                }
+
+                &s[..]
+            }
+
+            /*
+             *  String Slice
+             *  syntax: &REF[START_IDX..END_IDX] => END exclude like another lang
+             */
+            {
+                println!("\n[String slice]");
+                let s = String::from("hello world");
+
+                let hello = &s[0..5]; // or [..5]
+                let world = &s[6..11]; // or [6..]
+
+                println!("{}\n{}", hello, world);
+            }
+
+            /*
+             * &str slice
+             */
+            {
+                println!("\n[&str slice]");
+                let s = "bonjour tout le monde";
+                println!("{}", &s[0..7]);
+            }
+
+            /*
+             * other slice
+             */
+            {
+                println!("\n[Other slices]");
+
+                let a = [1,2,3,4,5];
+                let slice = &a[1..3]; // [2,3]
+
+                assert_eq!(slice, &[2,3]);
+            }
+        }
     }
 }
