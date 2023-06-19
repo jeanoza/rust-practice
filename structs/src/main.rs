@@ -19,5 +19,6 @@ fn main() {
     {
         let user1 = build_user(String::from("jean@gmail.com"), String::from("jean"));
 
+        println!("active:{} username:{} email:{} sign_in_count:{}", user1.active, user1.username, user1.email, user1.sign_in_count);
     }
 }
