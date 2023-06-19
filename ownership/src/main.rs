@@ -89,4 +89,60 @@ fn main() {
             str
         }
     }
+    /*
+     * Returning ownership of params 
+     */
+    {
+        println!("\n[Returning ownership of params]");
+        let s1 = String::from("hello");
+
+        let (s2, len) = calculate_length(s1);
+    
+        println!("The length of '{}' is {}.", s2, len);
+
+        fn calculate_length(s: String) -> (String, usize) {
+            let length = s.len(); // len() returns the length of a String
+
+            (s, length)
+        }
+    }
+
+    /*
+     * Reference borrowing / Not owning
+     * Instead of moving ownership, send its reference to function
+     */
+    {
+        println!("\n[Reference borrowing]");
+        let s1 = String::from("hello");
+        let len = calculate_length(&s1);
+
+        println!("The length of '{}' is {}.", s1, len);
+
+
+        // In this function, s:&String doesn't have onwership
+        fn calculate_length(s:&String) -> usize {
+            s.len()
+        }
+    }
+    /*
+     * Mutable Reference
+     * to add `&mut` to function's param
+     * function call line
+     * function defined line
+     */
+    {
+        println!("\n[Mutable Reference]");
+        let mut s = String::from("hello");
+
+        // change_str(&s);
+        // fn change_str(s:&String) {
+        //     s.push_str(", world");
+        // }
+        change_str(&mut s);
+
+        fn change_str(s:&mut String) {
+            s.push_str(", world");
+        }
+        println!("{s}");
+    }
 }
