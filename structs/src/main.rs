@@ -23,14 +23,15 @@ fn main() {
     {
         let user1 = build_user(String::from("jean@gmail.com"), String::from("jean"));
 
-        println!("res:{}", to_string_user(&user1));
-
-
+        
         let user2 = User {
+            username:user1.username.clone(),
             email:String::from("paul@gmail.com"),
             ..user1
         };
-        println!("res:{}", to_string_user(&user2));
+        println!("user1:{}", to_string_user(&user1));
+
+        println!("user2:{}", to_string_user(&user2));
 
 
     }
