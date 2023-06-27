@@ -1,3 +1,5 @@
+use std::fmt::Debug;
+
 struct User {
     active: bool,
     username: String,
@@ -30,13 +32,17 @@ fn to_string_point(point: &Point) -> String {
 }
 
 //Example Struct Usage
+#[derive(Debug)] // trait for logging struct 
 struct Rectangle {
     width:u32,
     height:u32,
 }
-fn area(rectangle: &Rectangle) -> u32 {
-    rectangle.width * rectangle.height
-}
+// manually implement fmt method
+// impl Debug for Rectangle {
+//     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+//         f.debug_struct("Rectangle").field("width", &self.width).field("height", &self.height).finish()
+//     }
+// }
 
 
 //Unit-Like Struct without Any Field
@@ -72,10 +78,18 @@ fn main() {
 
     println!("* * * Example Struct Usage * * *");
     {
+        let scale = 2;
         let rect1 = Rectangle {
-            width:30,
+            width:dbg!(30 * scale),
             height:50
         };
-        println!("Area: {}", area(&rect1));
+        println!("Area: {}", area(&rect1)); // 1500
+        // println!("{:?}", rect1); // one line
+        // println!("{:#?}", rect1); // applicate prettier format
+        dbg!(&rect1); //macro that use instance's ref to debug
+
+        fn area(rectangle: &Rectangle) -> u32 {
+            rectangle.width * rectangle.height
+        }
     }
 }
