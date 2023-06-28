@@ -124,6 +124,22 @@ fn main() {
             dbg!(value_in_cents(Coin::Nickel));
             dbg!(value_in_cents(Coin::Dime));
             dbg!(value_in_cents(Coin::Quarter(UsState::Alabama)));
+
+            let coin = Coin::Quarter(UsState::Alaska);
+            let coin2 = Coin::Penny;
+
+            //let if
+            if let Coin::Quarter(state) = coin {
+                dbg!(state);
+            } else {
+                dbg!("else coin1");
+            }
+
+            if let Coin::Quarter(state) = coin2 {
+                dbg!(state);
+            } else {
+                dbg!("else coin2");
+            }
         }
         println!("\n<ex2: matching with Option<T>>");
         {
