@@ -171,5 +171,16 @@ fn main() {
         }
     }
     println!("\n\n[with if let]");
-    {}
+    {
+        let config_max = Some(24u8);
+        let config_none: Option<u8> = None;
+        if let Some(max) = config_max {
+            println!("Max configured {}", max);
+        }
+        if let Some(element) = config_none {
+            println!("if {}", element);
+        } else {
+            println!("else"); // must print else because element is None
+        }
+    }
 }
