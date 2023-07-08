@@ -59,7 +59,6 @@ fn main() {
             dbg!(&s);
             // dbg!(&s1, &s2, &s3); s1 is no longer valid
         }
-
         {
             //format! uses references of String => also, it's more readable then '+'
             println!("\n- Concatenate with format! macro:");
@@ -70,6 +69,29 @@ fn main() {
             let s = format!("{s1}-{s2}-{s3}");
             dbg!(&s);
             dbg!(&s1, &s2, &s3); // s1 is still valid
+        }
+    }
+    {
+        println!("\n[Indexing]");
+        let s1 = String::from("hello");
+        let sliced = &s1[0..4];
+        dbg!(s1.as_bytes()[0]);
+        dbg!(s1.chars().nth(0)); // returns Option<char>
+        assert_eq!(s1.chars().nth(0), Some('h'));
+        dbg!(sliced);
+        assert_eq!(sliced, "hell");
+
+        let hello = "Здравствуйте";
+        let s = &hello[0..4];
+        dbg!(s);
+    }
+    {
+        println!("\n[Iterate over String]");
+        for c in "hello".chars() {
+            println!("char :{c}");
+        }
+        for b in "hello".bytes() {
+            println!("bytes(ascii): {b}");
         }
     }
 }
