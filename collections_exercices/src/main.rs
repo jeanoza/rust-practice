@@ -30,7 +30,7 @@ fn main() {
                 println!("
 - Add [NAME] to <DEPARTMENT>
 - List <DEPARTMENT>
-- List all
+- ListAll
 "
                 );
 
@@ -40,13 +40,12 @@ fn main() {
 
                 let cmds: Vec<&str> = input.split_whitespace().collect();
 
-                if cmds.len() < 2 {
+                if cmds.len() < 1 {
                     println!("Invalid input. Please try with:");
                     continue;
                 }
 
                 let action = cmds[0];
-
 
                 match action {
                     "Add" => {
@@ -63,8 +62,24 @@ fn main() {
 
                         println!("Added {} to {}", name, department);
                     },
-                    "List all" => {
+                    "ListAll" => {
+                        if cmds.len() != 1{
+                            println!("Invalid input. Please try with:");
+                            continue;
+                        }
+                        let mut all_name_in_list:Vec<&String> = Vec::new();
+                        for value in company.values().collect::<Vec<&Vec<String>>>() {
+                            all_name_in_list.extend(value);
+                        }
 
+                        if all_name_in_list.is_empty() {
+                            println!("List is Empty");
+                            continue;
+                        }
+                        all_name_in_list.sort();
+                        for name in all_name_in_list {
+                            println!("{:?}", name)
+                        }
                     },
                     "List" => {
                         if cmds.len() != 2{
@@ -73,28 +88,17 @@ fn main() {
                         }
 
                         let department = cmds[1];
-                        if department == "all" {
-                            let mut all_name_in_list:Vec<&String> = Vec::new();
-                            for value in company.values().collect::<Vec<&Vec<String>>>() {
-                                all_name_in_list.extend(value);
-                            }
 
-                            all_name_in_list.sort();
-                            for name in all_name_in_list {
-                                println!("{:?}", name)
+                        let mut name_list = match company.get(department) {
+                            Some(list) => list.clone(),
+                            None => {
+                                println!("Department not found");
+                                continue;
                             }
-                        } else {
-                            let mut name_list = match company.get(department) {
-                                Some(list) => list.clone(),
-                                None => {
-                                    println!("Department not found");
-                                    continue;
-                                }
-                            };
-                            name_list.sort();
-                            for name in name_list {
-                                println!("{:?}", name);
-                            }
+                        };
+                        name_list.sort();
+                        for name in name_list {
+                            println!("{:?}", name);
                         }
 
                     },
