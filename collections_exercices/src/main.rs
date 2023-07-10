@@ -17,16 +17,22 @@ fn get_median(list: &[i32]) -> f32 {
 fn main() {
     println!("* * * Exercices for collection * * *");
     {
-        println!("[Exercice 1: return median when given a list of integer");
+        println!("[Exercice 1: return median when given a list of integer]");
         dbg!(get_median(&[5]));
     }
     {
-        println!("[Exercice 3: Employee books");
+        println!("\n\n[Exercice 3: Employee books]");
         {
             let mut company: HashMap<String, Vec<String>> = HashMap::new();
 
             loop {
                 let mut input = String::new();
+                println!("
+- Add [NAME] to <DEPARTMENT>
+- List <DEPARTMENT>
+- List all
+"
+                );
 
                 io::stdin()
                     .read_line(&mut input)
@@ -35,29 +41,63 @@ fn main() {
                 let cmds: Vec<&str> = input.split_whitespace().collect();
 
                 if cmds.len() < 2 {
-                    println!(
-                        "Invalid input. Please try with:
-    - Add [NAME] to <DEPARTMENT>
-    - List <DEPARTMENT>
-"
-                    );
+                    println!("Invalid input. Please try with:");
                     continue;
                 }
 
                 let action = cmds[0];
-                let name = cmds[1];
-                let department = cmds[3];
+
 
                 match action {
                     "Add" => {
+                        if cmds.len() != 4{
+                            println!("Invalid input. Please try with:");
+                            continue;
+                        }
+                        let name = cmds[1];
+                        let department = cmds[3];
                         company
                             .entry(String::from(department))
                             .or_insert(Vec::new())
                             .push(String::from(name));
 
                         println!("Added {} to {}", name, department);
-                    }
-                    "List" => {}
+                    },
+                    "List all" => {
+
+                    },
+                    "List" => {
+                        if cmds.len() != 2{
+                            println!("Invalid input. Please try with:");
+                            continue;
+                        }
+
+                        let department = cmds[1];
+                        if department == "all" {
+                            let mut all_name_in_list:Vec<&String> = Vec::new();
+                            for value in company.values().collect::<Vec<&Vec<String>>>() {
+                                all_name_in_list.extend(value);
+                            }
+
+                            all_name_in_list.sort();
+                            for name in all_name_in_list {
+                                println!("{:?}", name)
+                            }
+                        } else {
+                            let mut name_list = match company.get(department) {
+                                Some(list) => list.clone(),
+                                None => {
+                                    println!("Department not found");
+                                    continue;
+                                }
+                            };
+                            name_list.sort();
+                            for name in name_list {
+                                println!("{:?}", name);
+                            }
+                        }
+
+                    },
                     _ => {
                         println!("Input invalid");
                     }
