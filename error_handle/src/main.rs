@@ -18,7 +18,9 @@ fn main() {
         }
         {
             let v = vec![1, 2, 3];
+            //this will call panic because `out of bounds` is vulnerable
             v[99];
+            //RUST_BACKTRACE=1 cargo run will show backtrace(detail).
         }
     }
 }
