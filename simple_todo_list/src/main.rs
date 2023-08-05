@@ -1,3 +1,6 @@
+mod todolist;
+use todolist::services;
+
 use actix_web::{get, web, App, HttpServer};
 use serde::{Deserialize, Serialize};
 use std::sync::Mutex;
@@ -6,7 +9,7 @@ struct AppState {
     todolist_entries: Mutex<Vec<TodolistEntry>>,
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 struct TodolistEntry {
     id: i32,
     date: i64,
@@ -24,9 +27,13 @@ async fn main() -> std::io::Result<()> {
         todolist_entries: Mutex::new(vec![]),
     });
 
-    HttpServer::new(move || App::new()
-    .app_data(app_data.clone()).service(index))
-        .bind(("127.0.0.1", 8080))?
-        .run()
-        .await
+    HttpServer::new(move || {
+        App::new()
+            .app_data(app_data.clone())
+            .service(index)
+            .configure(services::config)
+    })
+    .bind(("127.0.0.1", 8080))?
+    .run()
+    .await
 }
