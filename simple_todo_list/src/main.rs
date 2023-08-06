@@ -1,5 +1,4 @@
 mod todolist;
-use todolist::services;
 
 use actix_web::{get, web, App, HttpServer};
 use serde::{Deserialize, Serialize};
@@ -31,7 +30,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(app_data.clone())
             .service(index)
-            .configure(services::config)
+            .service(todolist::services::get_service())
     })
     .bind(("127.0.0.1", 8080))?
     .run()

@@ -1,13 +1,21 @@
-use super::models::{CreateEntryData, UpdateEntryData};
 use crate::{AppState, TodolistEntry};
-use actix_web::{delete, get, post, put, web, HttpResponse, Responder};
+use actix_web::{web, HttpResponse, Responder, Scope};
 
-#[get("/todolist/entries")]
+use crate::todolist::models::create_entry_data::CreateEntryData;
+use crate::todolist::models::update_entry_data::UpdateEntryData;
+
+pub fn get_service() -> Scope {
+    web::scope("/todolist/entries")
+        .route("", web::get().to(get_entries))
+        .route("", web::post().to(create_entry))
+        .route("/{id}", web::put().to(update_entry))
+        .route("/{id}", web::delete().to(delete_entry))
+}
+
 async fn get_entries(data: web::Data<AppState>) -> impl Responder {
     HttpResponse::Ok().json(data.todolist_entries.lock().unwrap().to_vec())
 }
 
-#[post("/todolist/entries")]
 async fn create_entry(
     data: web::Data<AppState>,
     body: web::Json<CreateEntryData>,
@@ -28,7 +36,6 @@ async fn create_entry(
     HttpResponse::Ok().json(todolist_entries.to_vec())
 }
 
-#[put("/todolist/entries/{id}")]
 async fn update_entry(
     data: web::Data<AppState>,
     path: web::Path<i32>,
@@ -46,7 +53,6 @@ async fn update_entry(
     HttpResponse::Ok().json(todolist_entries.to_vec())
 }
 
-#[delete("/todolist/entries/{id}")]
 async fn delete_entry(data: web::Data<AppState>, path: web::Path<i32>) -> impl Responder {
     let mut todolist_entries = data.todolist_entries.lock().unwrap();
     let id = path.into_inner();
@@ -57,11 +63,4 @@ async fn delete_entry(data: web::Data<AppState>, path: web::Path<i32>) -> impl R
         .filter(|x| x.id != id)
         .collect();
     HttpResponse::Ok().json(todolist_entries.to_vec())
-}
-
-pub fn config(cfg: &mut web::ServiceConfig) {
-    cfg.service(get_entries)
-        .service(create_entry)
-        .service(update_entry)
-        .service(delete_entry);
 }
