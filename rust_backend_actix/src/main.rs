@@ -70,12 +70,7 @@ async fn main() -> std::io::Result<()> {
             .service(
                 web::scope("/")
                     .guard(guard::Host("users.rust-lang.org"))
-                    .route(
-                        "",
-                        web::to(|| async {
-                            HttpResponse::Ok().body("users"))
-                        }),
-                    ),
+                    .route("", web::to(|| async { HttpResponse::Ok().body("users") })),
             )
             .service(web::scope("/").guard(guard::Host("localhost")).route(
                 "",
