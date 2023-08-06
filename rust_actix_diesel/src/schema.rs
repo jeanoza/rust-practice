@@ -3,7 +3,7 @@
 diesel::table! {
     articles (id) {
         id -> Int4,
-        created_by -> Int4,
+        user_id -> Nullable<Int4>,
         #[max_length = 255]
         title -> Varchar,
         content -> Text,
@@ -24,7 +24,7 @@ diesel::table! {
     }
 }
 
-diesel::joinable!(articles -> users (created_by));
+diesel::joinable!(articles -> users (user_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     articles,
