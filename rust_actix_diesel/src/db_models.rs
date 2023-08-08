@@ -6,7 +6,8 @@
 use chrono::NaiveDate;
 use chrono::NaiveDateTime;
 use diesel::Queryable;
-#[derive(Queryable, Debug)]
+use serde::Serialize;
+#[derive(Queryable, Debug, Serialize)]
 pub struct Article {
     pub id: i32,
     pub user_id: Option<i32>,
@@ -17,7 +18,7 @@ pub struct Article {
     pub deleted_at: Option<NaiveDateTime>,
 }
 
-#[derive(Queryable, Debug)]
+#[derive(Queryable, Debug, Serialize)]
 pub struct User {
     pub id: i32,
     pub name: String,

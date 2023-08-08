@@ -24,7 +24,7 @@ diesel_ext > src/db_models.rs
 
 ### etc
 ```bash
-#r2d2 to pull db connections
+#r2d2 for db connections pools
 cargo add diesel chrono --features "diesel/postgres diesel/r2d2"
 
 
