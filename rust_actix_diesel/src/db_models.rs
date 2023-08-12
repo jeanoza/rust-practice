@@ -3,10 +3,10 @@
 #![allow(unused)]
 #![allow(clippy::all)]
 
-use chrono::NaiveDate;
+
 use chrono::NaiveDateTime;
 use diesel::Queryable;
-use serde::Serialize;
+use serde_derive::Serialize;
 #[derive(Queryable, Debug, Serialize)]
 pub struct Article {
     pub id: i32,
@@ -22,7 +22,8 @@ pub struct Article {
 pub struct User {
     pub id: i32,
     pub name: String,
-    pub created_at: NaiveDate,
+    pub created_at: NaiveDateTime,
     pub updated_at: Option<NaiveDateTime>,
     pub deleted_at: Option<NaiveDateTime>,
 }
+
