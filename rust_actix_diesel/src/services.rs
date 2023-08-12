@@ -1,7 +1,7 @@
 use actix_web::{
     get, post,
-    web::{Json, Path, Data},
-    Responder, HttpResponse,
+    web::{Data, Json, Path},
+    HttpResponse, Responder,
 };
 use serde_derive::Deserialize;
 
@@ -20,9 +20,8 @@ pub async fn get_users(state: Data<AppState>) -> impl Responder {
     match db.send(GetUsersMsg).await {
         Ok(Ok(info)) => HttpResponse::Ok().json(info),
         Ok(Err(_)) => HttpResponse::NotFound().json("No user founded"),
-        _ => HttpResponse::InternalServerError().json("Unable to retrieve users")
+        _ => HttpResponse::InternalServerError().json("Unable to retrieve users"),
     }
-
 }
 
 #[get("/users/{id}/articles")]

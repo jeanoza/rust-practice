@@ -4,6 +4,7 @@ diesel::table! {
     articles (id) {
         id -> Int4,
         user_id -> Nullable<Int4>,
+        #[max_length = 255]
         title -> Varchar,
         content -> Text,
         created_at -> Timestamp,
@@ -15,6 +16,7 @@ diesel::table! {
 diesel::table! {
     users (id) {
         id -> Int4,
+        #[max_length = 255]
         name -> Varchar,
         created_at -> Timestamp,
         updated_at -> Nullable<Timestamp>,

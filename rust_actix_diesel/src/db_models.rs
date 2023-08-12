@@ -3,7 +3,6 @@
 #![allow(unused)]
 #![allow(clippy::all)]
 
-
 use chrono::NaiveDateTime;
 use diesel::Queryable;
 use serde_derive::Serialize;
@@ -26,4 +25,3 @@ pub struct User {
     pub updated_at: Option<NaiveDateTime>,
     pub deleted_at: Option<NaiveDateTime>,
 }
-
