@@ -4,4 +4,4 @@ use diesel::QueryResult;
 
 #[derive(Message)]
 #[rtype(result = "QueryResult<Vec<User>>")]
-pub struct GetUser;
+pub struct GetUsersMsg;

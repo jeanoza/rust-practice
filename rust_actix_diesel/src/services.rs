@@ -1,9 +1,11 @@
 use actix_web::{
     get, post,
-    web::{Json, Path},
-    Responder,
+    web::{Json, Path, Data},
+    Responder, HttpResponse,
 };
 use serde_derive::Deserialize;
+
+use crate::{db_utils::AppState, messages::GetUsersMsg};
 
 #[derive(Deserialize)]
 pub struct CreateArticleBody {
@@ -12,8 +14,15 @@ pub struct CreateArticleBody {
 }
 
 #[get("/users")]
-pub async fn get_users() -> impl Responder {
-    "Get /users".to_string()
+pub async fn get_users(state: Data<AppState>) -> impl Responder {
+    // "Get /users".to_string()
+    let db = state.as_ref().db.clone();
+    match db.send(GetUsersMsg).await {
+        Ok(Ok(info)) => HttpResponse::Ok().json(info),
+        Ok(Err(_)) => HttpResponse::NotFound().json("No user founded"),
+        _ => HttpResponse::InternalServerError().json("Unable to retrieve users")
+    }
+
 }
 
 #[get("/users/{id}/articles")]
