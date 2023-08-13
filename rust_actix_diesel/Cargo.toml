@@ -11,7 +11,6 @@ diesel = { version = "2.1.0", features = ["postgres", "r2d2", "chrono"] }
 dotenv = "0.15.0"
 serde = "1.0.183"
 serde_derive = "1.0.183"
-env_logger = "0.9.0"
 
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

@@ -21,6 +21,7 @@ pub struct Article {
 pub struct User {
     pub id: i32,
     pub name: String,
+    // #[serde(skip_serializing)] // if doesn't wanna send current element when loaded by diesel function without select()
     pub created_at: NaiveDateTime,
     pub updated_at: Option<NaiveDateTime>,
     pub deleted_at: Option<NaiveDateTime>,
